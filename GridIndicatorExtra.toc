@@ -1,0 +1,10 @@
+﻿## Interface: 60000
+## Title: GridIndicatorExtra
+## Notes: Additional indicators for Grid
+## Dependencies: Grid
+## Author: Slaren
+## Version: @project-version@
+
+Options.lua
+Icons.lua
+Texts.lua
