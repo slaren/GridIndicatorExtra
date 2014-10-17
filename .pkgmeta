@@ -1,2 +1,4 @@
+package-as: GridIndicatorExtra
+
 required-dependencies:
     - grid
