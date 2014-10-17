@@ -82,7 +82,6 @@ Text_RegisterIndicator("gie_text_topright", prefix .. "Top Right", "TOP", "RIGHT
 Text_RegisterIndicator("gie_text_botleft", prefix .. "Bottom Left", "BOTTOM", "LEFT")
 Text_RegisterIndicator("gie_text_botright", prefix .. "Bottom Right", "BOTTOM", "RIGHT")
 
-
 Text_RegisterIndicator("gie_text_top", prefix .. "Top", "TOP", "CENTER")
 Text_RegisterIndicator("gie_text_bottom", prefix .. "Bottom", "BOTTOM", "CENTER")
 Text_RegisterIndicator("gie_text_left", prefix .. "Left", "CENTER", "LEFT")
