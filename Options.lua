@@ -9,6 +9,8 @@ local db = Grid.db:RegisterNamespace("GridIndicatorExtra", {
 			enableIconStackText = true,
 			enableIconCooldown = true,
 			stackFontSize = 7,
+			stackOffsetX = 4,
+			stackOffsetY = -2,
 			margin = 1,
 			spacing = 1,
 		},
@@ -79,9 +81,21 @@ GridFrame.options.args["GridIndicatorExtra"] = {
 				stackFontSize = {
 					name = "Icon Stack Text Font Size",
 					desc = "Adjust the font size of the icon stack text.",
-					order = 20, width = "double",
+					order = 50, width = "double",
 					type = "range", min = 4, max = 24, step = 1,
-				},				
+				},
+				stackOffsetX = {
+					name = "Icon Stack Text Offset X",
+					desc = "Adjust the position of the icon stack text.",
+					order = 60, width = "normal",
+					type = "range", softMin = -20, softMax = 20, step = 1,
+				},
+				stackOffsetY = {
+					name = "Icon Stack Text Offset Y",
+					desc = "Adjust the position of the icon stack text.",
+					order = 70, width = "normal",
+					type = "range", softMin = -20, softMax = 20, step = 1,
+				},
 			},
 		},
 		text = {

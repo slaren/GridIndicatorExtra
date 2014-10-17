@@ -18,9 +18,8 @@ local function Icon_NewIndicator(frame)
 	icon.texture = texture
 
 	local text = icon:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-	text:SetPoint("BOTTOMRIGHT", 2, 2)
-	text:SetJustifyH("RIGHT")
-	text:SetJustifyV("BOTTOM")
+	text:SetJustifyH("CENTER")
+	text:SetJustifyV("CENTER")
 	icon.text = text
 
 	local cd = CreateFrame("Cooldown", nil, icon, "CooldownFrameTemplate")
@@ -78,7 +77,8 @@ local function Icon_ResetIndicator(self, point, second)
 	self.texture:SetPoint("BOTTOMLEFT", iconBorderSize, iconBorderSize)
 	self.texture:SetPoint("TOPRIGHT", -iconBorderSize, -iconBorderSize)
 
-	self.text:SetFont(font, fontSize, "OUTLINE")	
+	self.text:SetPoint("CENTER", profile.stackOffsetX, profile.stackOffsetY)
+	self.text:SetFont(font, fontSize, "OUTLINE")
 end
 
 local function Icon_SetStatus(self, color, text, value, maxValue, texture, texCoords, stack, start, duration)
