@@ -108,8 +108,6 @@ local function Icon_SetStatus(self, color, text, value, maxValue, texture, texCo
 		self.cooldown:Hide()
 	end
 
-	stack = "5"
-
 	if profile.enableIconStackText and stack and stack ~= 0 then
 		self.text:SetText(stack)
 	else
