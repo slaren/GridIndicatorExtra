@@ -10,6 +10,7 @@ local BACKDROP = {
 
 local function Icon_NewIndicator(frame)
 	local icon = CreateFrame("Button", nil, frame)
+	icon:EnableMouse(false)
 	icon:SetBackdrop(BACKDROP)
 
 	local texture = icon:CreateTexture(nil, "ARTWORK")
