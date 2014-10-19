@@ -13,6 +13,8 @@ local db = Grid.db:RegisterNamespace("GridIndicatorExtra", {
 			stackOffsetY = -2,
 			margin = 1,
 			spacing = 1,
+			more1 = true,
+			more2 = false,
 		},
 		text = {
 			font = "Friz Quadrata TT",
@@ -95,6 +97,18 @@ GridFrame.options.args["GridIndicatorExtra"] = {
 					desc = "Adjust the position of the icon stack text.",
 					order = 70, width = "normal",
 					type = "range", softMin = -20, softMax = 20, step = 1,
+				},
+				more1 = {
+					name = "Add More Icons (Requires UI Reload)",
+					desc = "Toggle icon 2.",
+					order = 80, width = "double",
+					type = "toggle",
+				},
+				more2 = {
+					name = "Add Even More Icons (Requires UI Reload)",
+					desc = "Toggle icons 3 and 4.",
+					order = 90, width = "double",
+					type = "toggle",
 				},
 			},
 		},

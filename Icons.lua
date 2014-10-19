@@ -38,7 +38,7 @@ local function Icon_NewIndicator(frame)
 	return icon
 end
 
-local function Icon_ResetIndicator(self, point, second)
+local function Icon_ResetIndicator(self, point, idx)
 	local profile = db.profile.icon
 	local font = Media:Fetch("font", db.profile.text.font) or STANDARD_TEXT_FONT
 	local fontSize = profile.stackFontSize
@@ -52,14 +52,42 @@ local function Icon_ResetIndicator(self, point, second)
 	self:SetWidth(totalSize)
 	self:SetHeight(totalSize)
 
+
+	-- positioning
 	self:ClearAllPoints()
 
-	local is_left = string.match(point, "LEFT") and 1 or -1
-	local is_top = string.match(point, "TOP") and -1 or 1
-	if second then
-		self:SetPoint(point, is_left * (totalSize + profile.margin + profile.spacing), is_top * profile.margin)
-	else
-		self:SetPoint(point, is_left * profile.margin, is_top * profile.margin)
+	local is_side = point == "TOP" or point == "BOTTOM" or point == "LEFT" or point == "RIGHT"
+	local is_left = string.match(point, "LEFT") and 1 or string.match(point, "RIGHT") and -1 or 0
+	local is_top = string.match(point, "TOP") and -1 or string.match(point, "BOTTOM") and 1 or 0
+
+	local m = profile.margin
+	local ts = totalSize + profile.spacing
+	local mts = profile.margin + totalSize + profile.spacing
+
+	if idx == 1 then
+		self:SetPoint(point, is_left * m, is_top * m)
+	elseif idx == 2 then
+		if point == "TOP" or point == "BOTTOM" then
+			self:SetPoint(point, 0, is_top * mts)
+		else
+			self:SetPoint(point, is_left * mts, is_top * m)
+		end
+	elseif idx == 3 then
+		if point == "TOP" or point == "BOTTOM" then
+			self:SetPoint(point, -ts, is_top * m)
+		elseif point == "LEFT" or point == "RIGHT" then
+			self:SetPoint(point, is_left * m, ts)
+		else
+			self:SetPoint(point, is_left * m, is_top * mts)
+		end
+	elseif idx == 4 then
+		if point == "TOP" or point == "BOTTOM" then
+			self:SetPoint(point, ts, is_top * m)
+		elseif point == "LEFT" or point == "RIGHT" then
+			self:SetPoint(point, is_left * m, -ts)
+		else
+			self:SetPoint(point, is_left * mts, is_top * mts)
+		end
 	end
 
 	if iconBorderSize == 0 then
@@ -133,36 +161,40 @@ local function Icon_ClearStatus(self)
 	self.cooldown:Hide()
 end
 
-local function Icon_RegisterIndicator(id, name, point, second)
-	GridFrame:RegisterIndicator(id, name,
+local function Icon_RegisterIndicator_Int(id, name, point, idx)
+	GridFrame:RegisterIndicator(id .. (idx == 1 and "" or tostring(idx)), name .. (idx == 1 and "" or (" " .. tostring(idx))),
 		Icon_NewIndicator,
 		function(self)
-			Icon_ResetIndicator(self, point)
+			Icon_ResetIndicator(self, point, idx)
 		end,
 		Icon_SetStatus,
 		Icon_ClearStatus
 	)
+end
 
-	if second then
-		GridFrame:RegisterIndicator(id .. "2", name .. " 2",
-			Icon_NewIndicator,
-			function(self)
-				Icon_ResetIndicator(self, point, second)
-			end,
-			Icon_SetStatus,
-			Icon_ClearStatus
-		)
+local function Icon_RegisterIndicator(id, name, point, more1, more2)
+	Icon_RegisterIndicator_Int(id, name, point, 1)
+
+	if more1 then
+		Icon_RegisterIndicator_Int(id, name, point, 2)
+	end
+
+	if more2 then
+		Icon_RegisterIndicator_Int(id, name, point, 3)
+		Icon_RegisterIndicator_Int(id, name, point, 4)
 	end
 end
 
+local more1 = db.profile.icon.more1
+local more2 =  db.profile.icon.more2
 local prefix = "Extra Icon: "
 
-Icon_RegisterIndicator("gie_icon_topleft", prefix .. "Top Left", "TOPLEFT", true)
-Icon_RegisterIndicator("gie_icon_botleft", prefix .. "Bottom Left", "BOTTOMLEFT", true)
-Icon_RegisterIndicator("gie_icon_topright", prefix .. "Top Right", "TOPRIGHT", true)
-Icon_RegisterIndicator("gie_icon_botright", prefix .. "Bottom Right", "BOTTOMRIGHT", true)
+Icon_RegisterIndicator("gie_icon_topleft", prefix .. "Top Left", "TOPLEFT", more1, more2)
+Icon_RegisterIndicator("gie_icon_botleft", prefix .. "Bottom Left", "BOTTOMLEFT", more1, more2)
+Icon_RegisterIndicator("gie_icon_topright", prefix .. "Top Right", "TOPRIGHT", more1, more2)
+Icon_RegisterIndicator("gie_icon_botright", prefix .. "Bottom Right", "BOTTOMRIGHT", more1, more2)
 
-Icon_RegisterIndicator("gie_icon_top", prefix .. "Top", "TOP")
-Icon_RegisterIndicator("gie_icon_bottom", prefix .. "Bottom", "BOTTOM")
-Icon_RegisterIndicator("gie_icon_left", prefix .. "Left", "LEFT", true)
-Icon_RegisterIndicator("gie_icon_right", prefix .. "Right", "RIGHT", true)
+Icon_RegisterIndicator("gie_icon_top", prefix .. "Top", "TOP", more1, more2)
+Icon_RegisterIndicator("gie_icon_bottom", prefix .. "Bottom", "BOTTOM", more1, more2)
+Icon_RegisterIndicator("gie_icon_left", prefix .. "Left", "LEFT", more1, more2)
+Icon_RegisterIndicator("gie_icon_right", prefix .. "Right", "RIGHT", more1, more2)
