@@ -83,15 +83,17 @@ local function Icon_ResetIndicator(self, point, second)
 end
 
 local function Icon_SetStatus(self, color, text, value, maxValue, texture, texCoords, stack, start, duration)
-	if not texture then return end
-
 	local profile = db.profile.icon
 
 	if type(texture) == "table" then
 		self.texture:SetTexture(texture.r, texture.g, texture.b, texture.a or 1)
-	else
+	elseif texture ~= nil then
 		self.texture:SetTexture(texture)
 		self.texture:SetTexCoord(texCoords.left, texCoords.right, texCoords.top, texCoords.bottom)
+	elseif type(color) == "table" then
+		self.texture:SetTexture(color.r, color.g, color.b, color.ignore and 0 or color.a or 1)
+	else
+		self.texture:SetTexture(0, 0, 0, 0)
 	end
 
 	if type(color) == "table" then
@@ -103,16 +105,17 @@ local function Icon_SetStatus(self, color, text, value, maxValue, texture, texCo
 	end
 
 	if profile.enableIconCooldown and type(duration) == "number" and duration > 0 and type(start) == "number" and start > 0 then
-		self.cooldown:SetCooldown(start, duration)
 		self.cooldown:Show()
+		self.cooldown:SetCooldown(start, duration)
 	else
 		self.cooldown:Hide()
 	end
 
-	if profile.enableIconStackText and stack and stack ~= 0 then
+	if profile.enableIconStackText and stack and stack > 1 then
 		self.text:SetText(stack)
+		self.text:Show()
 	else
-		self.text:SetText("")
+		self.text:Hide()
 	end
 	
 	self:Show()
