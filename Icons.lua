@@ -26,6 +26,7 @@ local function Icon_NewIndicator(frame)
 	local cd = CreateFrame("Cooldown", nil, icon, "CooldownFrameTemplate")
 	cd:SetAllPoints(true)
 	cd:SetReverse(true)
+	cd:SetDrawEdge(true)
 	icon.cooldown = cd
 
 	cd:SetScript("OnShow", function()
@@ -112,6 +113,10 @@ end
 
 local function Icon_SetStatus(self, color, text, value, maxValue, texture, texCoords, stack, start, duration)
 	local profile = db.profile.icon
+
+	if not profile.enableIconTextures then
+		texture = nil
+	end
 
 	if type(texture) == "table" then
 		self.texture:SetTexture(texture.r, texture.g, texture.b, texture.a or 1)
