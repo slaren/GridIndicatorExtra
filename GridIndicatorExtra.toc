@@ -1,4 +1,4 @@
-﻿## Interface: 60000
+﻿## Interface: 80000
 ## Title: GridIndicatorExtra
 ## Notes: Additional indicators for Grid
 ## Dependencies: Grid

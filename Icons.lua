@@ -9,7 +9,7 @@ local BACKDROP = {
 }
 
 local function Icon_NewIndicator(frame)
-	local icon = CreateFrame("Button", nil, frame)
+	local icon = CreateFrame("Frame", nil, frame)
 	icon:EnableMouse(false)
 	icon:SetBackdrop(BACKDROP)
 
@@ -24,9 +24,10 @@ local function Icon_NewIndicator(frame)
 	icon.text = text
 
 	local cd = CreateFrame("Cooldown", nil, icon, "CooldownFrameTemplate")
-	cd:SetAllPoints(true)
+	cd:SetAllPoints()
 	cd:SetReverse(true)
 	cd:SetDrawEdge(true)
+	cd:SetHideCountdownNumbers(true)
 	icon.cooldown = cd
 
 	cd:SetScript("OnShow", function()
